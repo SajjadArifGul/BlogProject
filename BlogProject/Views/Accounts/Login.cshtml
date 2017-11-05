@@ -1,0 +1,25 @@
+﻿@model BlogProject.ViewModels.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+@using (Html.BeginForm("Login", "Accounts", FormMethod.Post))
+{
+    @Html.LabelFor(m => m.Email)
+    @Html.TextBoxFor(m => m.Email)
+    @Html.ValidationMessageFor(m => m.Email)
+
+    <br />
+
+    @Html.LabelFor(m => m.Password)
+    @Html.PasswordFor(m => m.Password)
+    @Html.ValidationMessageFor(m => m.Password)
+
+    <br />
+
+    @Html.TextBox("LoginButton", "Login", new { type = "submit" })
+}
+
+@Html.ValidationSummary()

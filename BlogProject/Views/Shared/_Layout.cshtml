@@ -1,4 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    User user = (User)Session["User"];
+
+    bool isLoggedIn = false;
+
+    if(user != null)
+    {
+        isLoggedIn = true;
+    }    
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -23,6 +34,16 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+
+                    @if (isLoggedIn)
+                    {
+                        <li><a>Hi @user.Name!</a></li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Register", "Register", "Accounts")</li>
+                    }
+
                 </ul>
             </div>
         </div>

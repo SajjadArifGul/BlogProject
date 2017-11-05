@@ -53,5 +53,46 @@ namespace BlogProject.Controllers
                 return View(model);
             }
         }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var UserFromDB = db.Users.Where(u=>u.Email.Equals(model.Email)).FirstOrDefault();
+
+                if(UserFromDB != null)
+                {
+                    if(UserFromDB.Password.Equals(model.Password))
+                    {
+                        Session["User"] = UserFromDB;
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Your password does not match.");
+
+                        return View(model);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "No user exist with this email.");
+
+                    return View(model);
+                }
+            }
+            else
+            {
+                return View(model);
+            }
+        }
+        
     }
 }

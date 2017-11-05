@@ -28,6 +28,12 @@
 
     <br />
 
+    @Html.LabelFor(m => m.ConfirmPassword)
+    @Html.PasswordFor(m => m.ConfirmPassword)
+    @Html.ValidationMessageFor(m => m.ConfirmPassword)
+
+    <br />
+
     @Html.LabelFor(m => m.isStudent)
     @Html.CheckBoxFor(m => m.isStudent)
     @Html.ValidationMessageFor(m => m.isStudent)
