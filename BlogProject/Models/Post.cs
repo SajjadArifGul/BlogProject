@@ -22,6 +22,6 @@ namespace BlogProject.Models
         public DateTime PublishedTime { get; set; }
 
         [Required]
-        public User Author { get; set; }
+        public virtual User Author { get; set; }
     }
 }

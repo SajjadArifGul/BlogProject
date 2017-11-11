@@ -1,0 +1,83 @@
+﻿@model BlogProject.ViewModels.ProfileViewModel
+@{
+    ViewBag.Title = "Profile";
+
+    //List<SelectListItem> cities = Model.Cities.Select(x => new SelectListItem { Text = x.Name, Value = x.ID.ToString() }).ToList();
+}
+
+<h2>Your Profile</h2>
+
+@using (Html.BeginForm("Profile", "Accounts", FormMethod.Post))
+{
+    @Html.LabelFor(m => m.Name)
+    @Html.TextBoxFor(m => m.Name)
+    @Html.ValidationMessageFor(m => m.Name)
+
+    <br />
+
+    @Html.LabelFor(m => m.Email)
+    @Html.TextBoxFor(m => m.Email)
+    @Html.ValidationMessageFor(m => m.Email)
+
+    <br />
+
+    @Html.LabelFor(m => m.Password)
+    @Html.PasswordFor(m => m.Password)
+    @Html.ValidationMessageFor(m => m.Password)
+
+    <br />
+
+    @Html.LabelFor(m => m.isStudent)
+    @Html.CheckBoxFor(m => m.isStudent)
+    @Html.ValidationMessageFor(m => m.isStudent)
+
+    <br />
+
+    @Html.LabelFor(m => m.isFullTimeJob)
+    @Html.CheckBoxFor(m => m.isFullTimeJob)
+    @Html.ValidationMessageFor(m => m.isFullTimeJob)
+
+    <br />
+
+    @Html.LabelFor(m => m.isPartTimeJob)
+    @Html.CheckBoxFor(m => m.isPartTimeJob)
+    @Html.ValidationMessageFor(m => m.isPartTimeJob)
+
+    <br />
+
+    @Html.LabelFor(m => m.Gender)
+    @Html.Label("Male")
+    @Html.RadioButtonFor(m => m.Gender, "Male")
+    @Html.Label("Female")
+    @Html.RadioButtonFor(m => m.Gender, "Female")
+    @Html.ValidationMessageFor(m => m.Gender)
+
+    <br />
+
+    @Html.LabelFor(m => m.CityID)
+    <select name="CityID">
+    @foreach(var city in Model.Cities)
+    {
+        if (city.ID == Model.CityID)
+        {
+            <option value="@city.ID" selected>@city.Name</option>
+        }
+        else
+        {
+            <option value="@city.ID">@city.Name</option>
+        }
+    }
+    </select>
+    @Html.ValidationMessageFor(m => m.CityID)
+
+    <br />
+
+    @Html.LabelFor(m => m.AddressDetails)
+    @Html.TextAreaFor(m => m.AddressDetails)
+    @Html.ValidationMessageFor(m => m.AddressDetails)
+
+    <br />
+
+    @Html.TextBox("UpdateProfileButton", "Update", new { type = "submit" })
+}
+

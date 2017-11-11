@@ -35,6 +35,9 @@ namespace BlogProject.ViewModels
 
         [Required(ErrorMessage = "City is Required")]
         public int CityID { get; set; }
+        
+        [Required(ErrorMessage = "City is Required")]
+        public City City { get; set; }
 
         [MaxLength(250, ErrorMessage = "Maximum 250 Characters")]
         public string AddressDetails { get; set; }

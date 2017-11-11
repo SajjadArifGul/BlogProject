@@ -38,10 +38,13 @@
                     @if (isLoggedIn)
                     {
                         <li><a>Hi @user.Name!</a></li>
+                        <li>@Html.ActionLink("Logout", "Logout", "Accounts")</li>
+                        <li>@Html.ActionLink("Write Post", "Write", "Posts")</li>
                     }
                     else
                     {
                         <li>@Html.ActionLink("Register", "Register", "Accounts")</li>
+                        <li>@Html.ActionLink("Login", "Login", "Accounts")</li>
                     }
 
                 </ul>

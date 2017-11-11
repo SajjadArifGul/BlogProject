@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlogProject.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +9,12 @@ namespace BlogProject.Controllers
 {
     public class HomeController : Controller
     {
+        DataContext db = new DataContext();
+
         public ActionResult Index()
         {
-            return View();
+            var allPosts = db.Posts.ToList();
+            return View(allPosts);
         }
 
         public ActionResult About()

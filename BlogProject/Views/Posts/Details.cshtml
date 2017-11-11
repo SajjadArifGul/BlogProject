@@ -1,0 +1,10 @@
+﻿@model BlogProject.Models.Post
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@Model.Title</h2>
+<h4>Author: @Model.Author.Name</h4>
+<h4>Published On: @Model.PublishedTime</h4>
+<hr />
+<p>@Model.Description</p>

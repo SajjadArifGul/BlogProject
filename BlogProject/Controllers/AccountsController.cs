@@ -12,6 +12,16 @@ namespace BlogProject.Controllers
     public class AccountsController : Controller
     {
         DataContext db = new DataContext();
+        
+        // GET: Accounts
+        public ActionResult GetRegister()
+        {
+            RegisterViewModel model = new RegisterViewModel();
+
+            model.Cities = db.Cities.ToList();
+
+            return View(model);
+        }
 
         // GET: Accounts
         public ActionResult Register()
@@ -54,6 +64,17 @@ namespace BlogProject.Controllers
             }
         }
 
+
+        public ActionResult Logout()
+        {
+            //Session["User"] = null;
+
+            Session.Clear();
+            //Session.RemoveAll();
+
+            return RedirectToAction("Index","Home");
+        }
+
         public ActionResult Login()
         {
             return View();
@@ -94,5 +115,65 @@ namespace BlogProject.Controllers
             }
         }
         
+        public ActionResult Profile()
+        {
+            var CurrentlyLoggedInUser = (User)Session["User"];
+
+            if (CurrentlyLoggedInUser != null)
+            {
+                ProfileViewModel profileViewModel = new ProfileViewModel();
+
+                profileViewModel.Cities = db.Cities.ToList();
+                profileViewModel.Name = CurrentlyLoggedInUser.Name;
+                profileViewModel.Email = CurrentlyLoggedInUser.Email;
+                profileViewModel.Password = CurrentlyLoggedInUser.Password;
+                profileViewModel.isStudent = CurrentlyLoggedInUser.isStudent;
+                profileViewModel.isPartTimeJob = CurrentlyLoggedInUser.isPartTimeJob;
+                profileViewModel.isFullTimeJob = CurrentlyLoggedInUser.isFullTimeJob;
+                profileViewModel.Gender = CurrentlyLoggedInUser.Gender;
+                profileViewModel.CityID = CurrentlyLoggedInUser.City.ID;
+                profileViewModel.AddressDetails = CurrentlyLoggedInUser.AddressDetails;
+
+                return View(profileViewModel);
+            }
+            else return RedirectToAction("Login");
+        }
+
+        [HttpPost]
+        public ActionResult Profile(ProfileViewModel model)
+        {
+            var CurrentlyLoggedInUser = (User)Session["User"];
+
+            if(CurrentlyLoggedInUser != null)
+            {
+                //Because of this condition, modelstate was not validaying
+                model.ConfirmPassword = model.Password;
+
+                if (ModelState.IsValid)
+                {
+                    User loggedInUser = db.Users.Where(u=>u.ID == CurrentlyLoggedInUser.ID).FirstOrDefault();
+
+                    loggedInUser.Name = model.Name;
+                    loggedInUser.Email = model.Email;
+                    loggedInUser.Password = model.Password;
+                    loggedInUser.isStudent = model.isStudent;
+                    loggedInUser.isFullTimeJob = model.isFullTimeJob;
+                    loggedInUser.isPartTimeJob = model.isPartTimeJob;
+                    loggedInUser.AddressDetails = model.AddressDetails;
+                    loggedInUser.City = db.Cities.Where(c => c.ID == model.CityID).FirstOrDefault();
+                    loggedInUser.Gender = model.Gender;
+                    
+                    db.Entry(loggedInUser).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+
+                    Session["User"] = loggedInUser;
+                    
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            model.Cities = db.Cities.ToList();
+            return View(model);
+        }
     }
 }

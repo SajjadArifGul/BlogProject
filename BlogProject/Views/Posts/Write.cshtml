@@ -1,0 +1,16 @@
+﻿@model BlogProject.Models.Post
+@{
+    ViewBag.Title = "Write";
+}
+
+<h2>Write New Post</h2>
+
+<form method="post">
+    <p>
+        Title: <input name="Title" value="@Model.Title" />
+        Description: <textarea name="Description">@Model.Description</textarea>
+        <button type="submit">Post</button>
+    </p>
+</form>
+
+@Html.ValidationSummary()
