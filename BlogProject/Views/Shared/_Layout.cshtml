@@ -17,6 +17,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -37,7 +38,7 @@
 
                     @if (isLoggedIn)
                     {
-                        <li><a>Hi @user.Name!</a></li>
+                        <li>@Html.ActionLink("Hi " + user.Name + "!", "Profile", "Accounts")</li>
                         <li>@Html.ActionLink("Logout", "Logout", "Accounts")</li>
                         <li>@Html.ActionLink("Write Post", "Write", "Posts")</li>
                     }
@@ -59,7 +60,6 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>

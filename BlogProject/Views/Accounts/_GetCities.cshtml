@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "";
+}
+
+
+@Html.Label("City")
+<select name="CityID" id="CityID">
+    @foreach (var city in (List<City>)ViewBag.Cities)
+    {
+        <option value="@city.ID">@city.Name</option>
+    }
+</select>

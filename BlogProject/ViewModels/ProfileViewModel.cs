@@ -1,11 +1,31 @@
-﻿using System;
+﻿using BlogProject.Models;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace BlogProject.ViewModels
 {
-    public class ProfileViewModel : RegisterViewModel
+    public class ProfileViewModel
     {
+        [Required(ErrorMessage = "Name is Required")]
+        [MaxLength(50, ErrorMessage = "Maximum 50 Characters")]
+        public string Name { get; set; }
+        
+        public string Gender { get; set; }
+
+        public bool isStudent { get; set; }
+        public bool isFullTimeJob { get; set; }
+        public bool isPartTimeJob { get; set; }
+
+        [Required(ErrorMessage = "City is Required")]
+        public int CityID { get; set; }
+        
+        [MaxLength(250, ErrorMessage = "Maximum 250 Characters")]
+        public string AddressDetails { get; set; }
+
+        public List<City> Cities { get; set; }
+
     }
 }

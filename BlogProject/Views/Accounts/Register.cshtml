@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Register";
 
-    List<SelectListItem> cities = Model.Cities.Select(x => new SelectListItem { Text = x.Name, Value = x.ID.ToString() }).ToList();
+    //List<SelectListItem> cities = Model.Cities.Select(x => new SelectListItem { Text = x.Name, Value = x.ID.ToString() }).ToList();
 }
 
 <h2>Register</h2>
@@ -61,8 +61,33 @@
 
     <br />
 
-    @Html.LabelFor(m => m.CityID)
-    @Html.DropDownListFor(m => m.CityID, cities)
+    @Html.LabelFor(m => m.CountryID)
+    <select name="CountryID" id="CountryID">
+        @foreach (var country in Model.Countries)
+        {
+            if (country.ID == Model.DefaultCountry)
+            {
+                <option value="@country.ID" selected>@country.Name</option>
+            }
+            else
+            {
+                <option value="@country.ID">@country.Name</option>
+            }
+        }
+    </select>
+    @Html.ValidationMessageFor(m => m.CountryID)
+
+    <br />
+
+    <div id="CityDropDown">
+        @Html.Label("City")
+        <select name="City" id="CityID">
+            @foreach (var city in Model.Cities.Where(c=>c.Country.ID == Model.DefaultCountry))
+            {
+                <option value="@city.ID">@city.Name</option>
+            }
+        </select>
+    </div>
     @Html.ValidationMessageFor(m => m.CityID)
 
     <br />
@@ -75,3 +100,45 @@
 
     @Html.TextBox("RegisterButton", "Register", new { type = "submit" })
 }
+
+<script>
+    $(document).ready(function () {
+        $("#CountryID").change(function () {
+
+            var country_ID = $("#CountryID").val();
+
+            ////AJAX for PartialView
+            //$.ajax({
+            //    url: "/Accounts/GetCities",
+            //    data: {
+            //        CountryID: country_ID
+            //    },
+            //    success: function (result) {
+                    
+            //        $("#CityDropDown").html(result);
+            //    }
+            //});
+
+            //AJAX for JSON
+            $.ajax({
+                url: "/Accounts/GetCitiesByJSON",
+                data: {
+                    CountryID: country_ID
+                },
+                success: function (result) {
+                    debugger;
+
+                    $(result).each(function () {
+                        //this refers to the current item being iterated over
+
+                        var option = $('<option />');
+                        option.attr('value', this.value);
+                        option.text(this.label);
+
+                        $('#CityID').append(option);
+                    });
+                }
+            });
+        });
+    });
+</script>

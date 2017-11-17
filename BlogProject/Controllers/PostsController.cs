@@ -1,5 +1,6 @@
 ﻿using BlogProject.Data;
 using BlogProject.Models;
+using BlogProject.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,30 +20,34 @@ namespace BlogProject.Controllers
 
             if (CurrentlyLoggedInUser != null)
             {
-                Post newPost = new Post();
+                WritePostViewModel model = new WritePostViewModel();
 
-                return View(newPost);
+                return View(model);
             }
             else return RedirectToAction("Login", "Accounts");
         }
 
         [HttpPost]
-        public ActionResult Write(Post post)
+        public ActionResult Write(WritePostViewModel model)
         {
             var CurrentlyLoggedInUser = (User)Session["User"];
-
-            post.PublishedTime = DateTime.Now;
-            post.Author = db.Users.Where(u=>u.ID == CurrentlyLoggedInUser.ID).FirstOrDefault();
-
+            
             if (ModelState.IsValid)
             {
-                db.Posts.Add(post);
+                Post newPost = new Post();
+
+                newPost.Title = model.Title;
+                newPost.Description = model.Description;
+                newPost.PublishedTime = DateTime.Now;
+                newPost.Author = db.Users.Where(u => u.ID == CurrentlyLoggedInUser.ID).FirstOrDefault();
+
+                db.Posts.Add(newPost);
                 db.SaveChanges();
 
                 return RedirectToAction("Index", "Home");
             }
 
-            return View(post);
+            return View(model);
         }
 
         public ActionResult Details(int ID)

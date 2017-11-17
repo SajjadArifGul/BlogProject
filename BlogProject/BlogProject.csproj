@@ -176,6 +176,7 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ProfileViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\WritePostViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -220,6 +221,7 @@
     <Content Include="Views\Posts\Write.cshtml" />
     <Content Include="Views\Posts\Details.cshtml" />
     <Content Include="Views\Accounts\Profile.cshtml" />
+    <Content Include="Views\Accounts\_GetCities.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
