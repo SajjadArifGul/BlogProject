@@ -2,13 +2,50 @@
 @{
     ViewBag.Title = "Home Page";
 }
-<h1>All the posts</h1>
 
-<div class="row">
-    <ol>
-        @foreach (var post in Model)
-        {
-            <li> <a href="/posts/details/@post.ID">@post.Title</a> BY @post.Author.Name at @post.PublishedTime</li>
-        }
-    </ol>
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('/Images/Theme/home-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>My Blog</h1>
+                    <span class="subheading">A Place where I write Stuff</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            @foreach (var post in Model)
+            {
+                <div class="post-preview">
+                    <a href="/posts/details/@post.ID">
+                        <h2 class="post-title">
+                            @post.Title
+                        </h2>
+                        <h3 class="post-subtitle">
+                            ---
+                        </h3>
+                    </a>
+                    <p class="post-meta">
+                        Posted by
+                        <a href="#">@post.Author.Name</a>
+                        on @post.PublishedTime
+                    </p>
+                </div>
+                <hr>
+            }
+            
+            <!-- Pager -->
+            <div class="clearfix">
+                <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+            </div>
+        </div>
+    </div>
 </div>

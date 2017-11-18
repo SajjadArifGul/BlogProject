@@ -107,14 +107,13 @@
 
             var country_ID = $("#CountryID").val();
 
-            ////AJAX for PartialView
+            //AJAX for PartialView
             //$.ajax({
             //    url: "/Accounts/GetCities",
             //    data: {
             //        CountryID: country_ID
             //    },
-            //    success: function (result) {
-                    
+            //    success: function (result) {                    
             //        $("#CityDropDown").html(result);
             //    }
             //});
@@ -125,17 +124,15 @@
                 data: {
                     CountryID: country_ID
                 },
-                success: function (result) {
-                    debugger;
+                success: function (citiesList) {
 
-                    $(result).each(function () {
-                        //this refers to the current item being iterated over
+                    $('#CityID').children().remove();
 
-                        var option = $('<option />');
-                        option.attr('value', this.value);
-                        option.text(this.label);
-
-                        $('#CityID').append(option);
+                    $.each(citiesList, function (i, city) {
+                        $('#CityID')
+                            .append($("<option></option>")
+                                .attr("value", city.ID)
+                                .text(city.Name));
                     });
                 }
             });
