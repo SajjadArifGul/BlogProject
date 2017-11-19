@@ -2,24 +2,54 @@
 @{
     ViewBag.Title = "Login";
 }
-
-<h2>Login</h2>
-
-@using (Html.BeginForm("Login", "Accounts", FormMethod.Post))
-{
-    @Html.LabelFor(m => m.Email)
-    @Html.TextBoxFor(m => m.Email)
-    @Html.ValidationMessageFor(m => m.Email)
-
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('/Images/Theme/home-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>Login</h1>
+                    <span class="subheading">Login to Your My Blog Account</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <h2>Login<br>to<br>Your<br>My Blog<br>Account</h2>
+        <div class="col-lg-8 col-md-10 mx-auto">
+            @using (Html.BeginForm("Login", "Accounts", FormMethod.Post, new { id = "login-form" }))
+            {
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email)
+                    <input name="Email" id="Email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter Email">
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password)
+                    <input name="Password" id="Password" type="password" class="form-control" placeholder="Enter Password">
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            }
+        </div>
+    </div>
     <br />
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            @Html.ValidationSummary(false, "", new { @class = "" })
+        </div>
+    </div>
+</div>
 
-    @Html.LabelFor(m => m.Password)
-    @Html.PasswordFor(m => m.Password)
-    @Html.ValidationMessageFor(m => m.Password)
-
-    <br />
-
-    @Html.TextBox("LoginButton", "Login", new { type = "submit" })
-}
-
-@Html.ValidationSummary()
+<script>
+    $(document).ready(function () {
+        //scroll to email control when page loads and focus it
+        var scrollPos = $("#login-form").offset().top - 40;
+        $(window).scrollTop(scrollPos);
+        $("#Email").focus();
+    });
+</script>

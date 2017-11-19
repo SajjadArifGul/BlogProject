@@ -5,68 +5,154 @@
     //List<SelectListItem> cities = Model.Cities.Select(x => new SelectListItem { Text = x.Name, Value = x.ID.ToString() }).ToList();
 }
 
-<h2>Your Profile</h2>
 
-@using (Html.BeginForm("Profile", "Accounts", FormMethod.Post))
-{
-    @Html.LabelFor(m => m.Name)
-    @Html.TextBoxFor(m => m.Name)
-    @Html.ValidationMessageFor(m => m.Name)
-
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('/Images/Theme/home-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>@Model.Name</h1>
+                    <span class="subheading">Update your profile</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <h2>Update<br>Your<br>Profile</h2>
+        <div class="col-lg-8 col-md-10 mx-auto">
+            @using (Html.BeginForm("Profile", "Accounts", FormMethod.Post, new { id = "profile-form" }))
+            {
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name)
+                    <input name="Name" id="Name" class="form-control" placeholder="Enter Name" value="@Model.Name">
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Profession")
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.isStudent)
+                        @Html.Label("Student")
+                        @Html.ValidationMessageFor(model => model.isStudent, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.isPartTimeJob)
+                        @Html.Label("Part Time")
+                        @Html.ValidationMessageFor(model => model.isPartTimeJob, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.isFullTimeJob)
+                        @Html.Label("Full Time")
+                        @Html.ValidationMessageFor(model => model.isFullTimeJob, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Gender")
+                    <div class="radiobutton">
+                        @Html.RadioButtonFor(m => m.Gender, "Male")
+                        @Html.Label("Male")
+                    </div>
+                    <div class="checkbox">
+                        @Html.RadioButtonFor(m => m.Gender, "Female")
+                        @Html.Label("Female")
+                    </div>
+                    @Html.ValidationMessageFor(model => model.isPartTimeJob, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Country")
+                    <select name="CountryID" id="CountryID" class="form-control">
+                        @foreach (var country in Model.Countries)
+                        {
+                            if (country.ID == Model.DefaultCountry)
+                            {
+                                <option value="@country.ID" selected>@country.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@country.ID">@country.Name</option>
+                            }
+                        }
+                    </select>
+                    @Html.ValidationMessageFor(model => model.CountryID, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("City")
+                    <select name="CityID" id="CityID" class="form-control">
+                        @foreach (var city in Model.Cities.Where(c => c.Country.ID == Model.DefaultCountry))
+                        {
+                            if (city.ID == Model.CityID)
+                            {
+                                <option value="@city.ID" selected>@city.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@city.ID">@city.Name</option>
+                            }
+                        }
+                    </select>
+                    @Html.ValidationMessageFor(model => model.CityID, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AddressDetails)
+                    <textarea name="AddressDetails" id="AddressDetails" class="form-control" placeholder="Enter Address">@Model.AddressDetails</textarea>
+                    @Html.ValidationMessageFor(model => model.AddressDetails, "", new { @class = "text-danger" })
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+            }
+        </div>
+    </div>
     <br />
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            @Html.ValidationSummary(false, "", new { @class = "" })
+        </div>
+    </div>
+</div>
 
-    @Html.LabelFor(m => m.isStudent)
-    @Html.CheckBoxFor(m => m.isStudent)
-    @Html.ValidationMessageFor(m => m.isStudent)
+<script>
+    $(document).ready(function () {
+        //scroll to email control when page loads and focus it
+        var scrollPos = $("#profile-form").offset().top - 40;
+        $(window).scrollTop(scrollPos);
+        $("#Name").focus();
 
-    <br />
+        $("#CountryID").change(function () {
 
-    @Html.LabelFor(m => m.isFullTimeJob)
-    @Html.CheckBoxFor(m => m.isFullTimeJob)
-    @Html.ValidationMessageFor(m => m.isFullTimeJob)
+            var country_ID = $("#CountryID").val();
 
-    <br />
+            //AJAX for PartialView
+            //$.ajax({
+            //    url: "/Accounts/GetCities",
+            //    data: {
+            //        CountryID: country_ID
+            //    },
+            //    success: function (result) {
+            //        $("#CityDropDown").html(result);
+            //    }
+            //});
 
-    @Html.LabelFor(m => m.isPartTimeJob)
-    @Html.CheckBoxFor(m => m.isPartTimeJob)
-    @Html.ValidationMessageFor(m => m.isPartTimeJob)
+            //AJAX for JSON
+            $.ajax({
+                url: "/Accounts/GetCitiesByJSON",
+                data: {
+                    CountryID: country_ID
+                },
+                success: function (citiesList) {
 
-    <br />
+                    $('#CityID').children().remove();
 
-    @Html.LabelFor(m => m.Gender)
-    @Html.Label("Male")
-    @Html.RadioButtonFor(m => m.Gender, "Male")
-    @Html.Label("Female")
-    @Html.RadioButtonFor(m => m.Gender, "Female")
-    @Html.ValidationMessageFor(m => m.Gender)
-
-    <br />
-
-    @Html.LabelFor(m => m.CityID)
-    <select name="CityID">
-    @foreach(var city in Model.Cities)
-    {
-        if (city.ID == Model.CityID)
-        {
-            <option value="@city.ID" selected>@city.Name</option>
-        }
-        else
-        {
-            <option value="@city.ID">@city.Name</option>
-        }
-    }
-    </select>
-    @Html.ValidationMessageFor(m => m.CityID)
-
-    <br />
-
-    @Html.LabelFor(m => m.AddressDetails)
-    @Html.TextAreaFor(m => m.AddressDetails)
-    @Html.ValidationMessageFor(m => m.AddressDetails)
-
-    <br />
-
-    @Html.TextBox("UpdateProfileButton", "Update", new { type = "submit" })
-}
-
-@Html.ValidationSummary()
+                    $.each(citiesList, function (i, city) {
+                        $('#CityID')
+                            .append($("<option></option>")
+                                .attr("value", city.ID)
+                                .text(city.Name));
+                    });
+                }
+            });
+        });
+    });
+</script>

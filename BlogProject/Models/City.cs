@@ -15,6 +15,6 @@ namespace BlogProject.Models
         public string Name { get; set; }
 
         [Required]
-        public Country Country { get; set; }
+        public virtual Country Country { get; set; }
     }
 }

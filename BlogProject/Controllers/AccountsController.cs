@@ -50,6 +50,7 @@ namespace BlogProject.Controllers
                 newRegisteredUser.isFullTimeJob = model.isFullTimeJob;
                 newRegisteredUser.isPartTimeJob = model.isPartTimeJob;
                 newRegisteredUser.AddressDetails = model.AddressDetails;
+                newRegisteredUser.Gender = model.Gender;
                 newRegisteredUser.City = db.Cities.Where(c => c.ID == model.CityID).FirstOrDefault();
 
                 db.Users.Add(newRegisteredUser);
@@ -61,7 +62,10 @@ namespace BlogProject.Controllers
             }
             else {
 
+                model.Countries = db.Countries.ToList();
                 model.Cities = db.Cities.ToList();
+
+                model.DefaultCountry = 2;
 
                 return View(model);
             }
@@ -134,6 +138,11 @@ namespace BlogProject.Controllers
                 profileViewModel.CityID = CurrentlyLoggedInUser.City.ID;
                 profileViewModel.AddressDetails = CurrentlyLoggedInUser.AddressDetails;
 
+                profileViewModel.Countries = db.Countries.ToList();
+                profileViewModel.Cities = db.Cities.ToList();
+
+                profileViewModel.DefaultCountry = CurrentlyLoggedInUser.City.Country.ID;
+                
                 return View(profileViewModel);
             }
             else return RedirectToAction("Login");
@@ -165,13 +174,36 @@ namespace BlogProject.Controllers
                     
                     return RedirectToAction("Index", "Home");
                 }
+                else
+                {
+                    model.Countries = db.Countries.ToList();
+                    model.Cities = db.Cities.ToList();
+
+                    model.DefaultCountry = CurrentlyLoggedInUser.City.Country.ID;
+
+                    return View(model);
+                }
             }
+            else return RedirectToAction("Login");
+        }
 
-            model.Cities = db.Cities.ToList();
+        public ActionResult Author(int AuthorID)
+        {
+            var author = db.Users.Where(a=>a.ID == AuthorID).FirstOrDefault();
 
+            if (author != null)
+            {
+                AuthorViewModel authorViewModel = new AuthorViewModel();
+                
+                authorViewModel.Name = author.Name;
+                authorViewModel.City = author.City;
+                authorViewModel.AddressDetails = author.AddressDetails;
 
+                authorViewModel.Posts = db.Posts.Where(p => p.Author.ID == AuthorID).ToList();
 
-            return View(model);
+                return View(authorViewModel);
+            }
+            else return RedirectToAction("Index", "Home");
         }
 
         public ActionResult GetCities(int CountryID)

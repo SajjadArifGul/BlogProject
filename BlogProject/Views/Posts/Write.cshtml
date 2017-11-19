@@ -2,15 +2,40 @@
 @{
     ViewBag.Title = "Write";
 }
-
-<h2>Write New Post</h2>
-
-<form method="post">
-    <p>
-        Title: <input name="Title" value="@Model.Title" />
-        Description: <textarea name="Description">@Model.Description</textarea>
-        <button type="submit">Post</button>
-    </p>
-</form>
-
-@Html.ValidationSummary()
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('/Images/Theme/home-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>My Blog</h1>
+                    <span class="subheading">A Place where I write Stuff</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <h2 class="text-center">Write New Post</h2>
+            <hr />
+            @using (Html.BeginForm("Write", "Posts", FormMethod.Post, new { id = "post-form" }))
+            {
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Title)
+                    <input name="Title" id="Title" class="form-control" placeholder="Enter post title">
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Description)
+                    <textarea name="Description" id="Description" class="form-control" placeholder="Write your post" rows="10"></textarea>
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+                <button type="submit" class="btn btn-primary">Publish</button>
+            }
+        </div>
+    </div>
+</div>

@@ -14,8 +14,8 @@
                     <h2 class="subheading">--</h2>
                     <span class="meta">
                         Posted by
-                        <a href="#">@Model.Author.Name</a>
-                        on @Model.PublishedTime
+                        @Html.ActionLink(Model.Author.Name, "Author", "Accounts", new { AuthorID = Model.Author.ID }, null)
+                        on @Model.PublishedTime.ToString("D")
                     </span>
                 </div>
             </div>

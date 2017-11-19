@@ -1,8 +1,7 @@
-﻿@model List<BlogProject.Models.Post>
+﻿@model BlogProject.ViewModels.AuthorViewModel
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Author";
 }
-
 <!-- Page Header -->
 <header class="masthead" style="background-image: url('/Images/Theme/home-bg.jpg')">
     <div class="overlay"></div>
@@ -10,19 +9,20 @@
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="site-heading">
-                    <h1>My Blog</h1>
-                    <span class="subheading">A Place where I write Stuff</span>
+                    <h1>@Model.Name</h1>
+                    <span class="subheading">@Model.City.Name, @Model.City.Country.Name</span>
                 </div>
             </div>
         </div>
     </div>
 </header>
-
 <!-- Main Content -->
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-            @foreach (var post in Model)
+            <h5>Posts by @Model.Name</h5>
+            <hr />
+            @foreach (var post in Model.Posts)
             {
                 <div class="post-preview">
                     <a href="/posts/details/@post.ID">
@@ -41,7 +41,7 @@
                 </div>
                 <hr>
             }
-            
+
             <!-- Pager -->
             <div class="clearfix">
                 <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>

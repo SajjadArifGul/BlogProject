@@ -22,7 +22,7 @@ namespace BlogProject.ViewModels
         [MaxLength(13, ErrorMessage = "Maximum 13 Characters")]
         public string Password { get; set; }
         
-        [Required(ErrorMessage = "Password is Required")]
+        [Required(ErrorMessage = "Confirm Password is Required")]
         [MaxLength(13, ErrorMessage = "Maximum 13 Characters")]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
