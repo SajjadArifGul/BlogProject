@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -21,10 +22,28 @@ namespace BlogProject.Models
         [Required]
         public string Description { get; set; }
 
+        [NotMapped]
+        public string PostSummary {
+            get {
+                if(!string.IsNullOrEmpty(Summary))
+                {
+                    return Summary;
+                }
+                else
+                {
+                    var descriptionSummary = Description.Length > 40 ? Description.Substring(0, 40) : Description;
+
+                    return string.Format("{0}{1}", descriptionSummary, "...");
+                }
+            }
+        }
+
         [Required]
         public DateTime PublishedTime { get; set; }
 
         [Required]
         public virtual User Author { get; set; }
+        
+        public virtual Image Image { get; set; }
     }
 }

@@ -14,5 +14,7 @@ namespace BlogProject.ViewModels
 
         [Required]
         public string Description { get; set; }
+
+        public int ImageID { get; set; }
     }
 }

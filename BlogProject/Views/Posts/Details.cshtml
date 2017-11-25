@@ -1,17 +1,26 @@
 ﻿@model BlogProject.Models.Post
 @{
     ViewBag.Title = "Details";
+
+    var postImageSource = "default.jpg";
+
+    if(Model.Image != null && Model.Image.Source != null)
+    {
+        postImageSource = Model.Image.Source;
+    }
 }
 
 <!-- Page Header -->
-<header class="masthead" style="background-image: url('/Images/Theme/post-bg.jpg')">
+<header class="masthead" style="background-image: url('/Images/@postImageSource')">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="post-heading">
                     <h1>@Model.Title</h1>
-                    <h2 class="subheading">--</h2>
+                    <h2 class="subheading">
+                        @Model.PostSummary
+                    </h2>
                     <span class="meta">
                         Posted by
                         @Html.ActionLink(Model.Author.Name, "Author", "Accounts", new { AuthorID = Model.Author.ID }, null)

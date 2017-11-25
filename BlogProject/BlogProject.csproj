@@ -171,9 +171,14 @@
     <Compile Include="Migrations\201711191043482_addedSummaryToPost.Designer.cs">
       <DependentUpon>201711191043482_addedSummaryToPost.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711251349511_ImageAddedToPost.cs" />
+    <Compile Include="Migrations\201711251349511_ImageAddedToPost.Designer.cs">
+      <DependentUpon>201711251349511_ImageAddedToPost.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -299,6 +304,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711191043482_addedSummaryToPost.resx">
       <DependentUpon>201711191043482_addedSummaryToPost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711251349511_ImageAddedToPost.resx">
+      <DependentUpon>201711251349511_ImageAddedToPost.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
