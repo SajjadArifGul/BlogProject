@@ -28,15 +28,20 @@
                     <img id="postOfImage" class="img-fluid">
                 </div>
                 <div class="form-group">
+                    @Html.Label("Post Image")
+                    <input type="file" class="form-control" id="postImage" name="Image" />
+                    <input type="hidden" id="ImageID" name="ImageID" />
+                    @Html.ValidationMessageFor(model => model.ImageID, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
                     @Html.LabelFor(m => m.Title)
                     <input name="Title" id="Title" class="form-control" placeholder="Enter post title">
                     @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
-                    @Html.Label("Image")
-                    <input type="file" class="form-control" id="postImage" name="Image"/>
-                    <input type="hidden" id="ImageID" name="ImageID" />
-                    @Html.ValidationMessageFor(model => model.ImageID, "", new { @class = "text-danger" })
+                    @Html.LabelFor(m => m.Summary)
+                    <input name="Summary" id="Summary" class="form-control" placeholder="Enter post summary">
+                    @Html.ValidationMessageFor(model => model.Summary, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.Description)
@@ -49,8 +54,13 @@
     </div>
 </div>
 
+@*for Making Description a big text editor*@
+<script src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
+
 <script>
     $(document).ready(function () {
+        CKEDITOR.replace('Description');
+
         $("#postImage").change(function () {
 
             var formData = new FormData();
@@ -68,7 +78,6 @@
                 contentType: false,
                 processData: false
             }).done(function (data) {
-                debugger;
                 if(data.Success)
                 {
                     $("#ImageID").val(data.ImageID);
@@ -76,10 +85,10 @@
                 }
                 else
                 {
-                    alert("Not uploaded");
+                    alert("image Not uploaded.");
                 }
             }).fail(function (xhr, status, errorThrown) {
-                alert('fail');
+                alert("an error occured.");
             })
         });
     });

@@ -29,6 +29,7 @@ namespace BlogProject.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Write(WritePostViewModel model)
         {
             var CurrentlyLoggedInUser = (User)Session["User"];
@@ -38,6 +39,7 @@ namespace BlogProject.Controllers
                 Post newPost = new Post();
 
                 newPost.Title = model.Title;
+                newPost.Summary = model.Summary;
                 newPost.Description = model.Description;
                 newPost.Image = db.Images.Where(x => x.ID == model.ImageID).FirstOrDefault();
 
