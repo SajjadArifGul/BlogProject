@@ -38,6 +38,28 @@ namespace BlogProject.Models
             }
         }
 
+        [NotMapped]
+        public string URL
+        {
+            get
+            {
+                var url = string.Empty;
+                if (Title.Length < 30)
+                {
+                    url = Title.Replace(' ', '-').Replace('.', '-');
+                }
+                else
+                {
+                    url = Title.Substring(0, 30).Replace(' ', '-').Replace('.', '-');
+                }
+                
+                //remove dash / dot if it is the last character in url
+                if (url[url.Length-1] == '-' || url[url.Length - 1] == '.') url = url.Remove(url.Length - 1, 1);
+
+                return url.ToLower();
+            }
+        }
+
         [Required]
         public DateTime PublishedTime { get; set; }
 

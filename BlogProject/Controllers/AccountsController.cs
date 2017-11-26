@@ -1,4 +1,5 @@
-﻿using BlogProject.Data;
+﻿using BlogProject.Code;
+using BlogProject.Data;
 using BlogProject.Models;
 using BlogProject.ViewModels;
 using System;
@@ -13,16 +14,6 @@ namespace BlogProject.Controllers
     {
         DataContext db = new DataContext();
         
-        // GET: Accounts
-        public ActionResult GetRegister()
-        {
-            RegisterViewModel model = new RegisterViewModel();
-
-            model.Cities = db.Cities.ToList();
-
-            return View(model);
-        }
-
         // GET: Accounts
         public ActionResult Register()
         {
@@ -187,20 +178,40 @@ namespace BlogProject.Controllers
             else return RedirectToAction("Login");
         }
 
-        public ActionResult Author(int AuthorID)
+        public ActionResult Author(int AuthorID, int? pageNo, int? posts)
         {
+            pageNo = pageNo ?? 1;
+            posts = posts ?? Variables.NoOfPosts;
+
+            var take = posts.Value;
+            var skip = (pageNo.Value - 1) * posts.Value;
+
             var author = db.Users.Where(a=>a.ID == AuthorID).FirstOrDefault();
 
             if (author != null)
             {
                 AuthorViewModel authorViewModel = new AuthorViewModel();
-                
+                authorViewModel.Author = author;
                 authorViewModel.Name = author.Name;
                 authorViewModel.City = author.City;
                 authorViewModel.AddressDetails = author.AddressDetails;
+                
+                authorViewModel.TotalPosts = db.Posts.Where(p => p.Author.ID == AuthorID).Count();
+                authorViewModel.PostsList = db.Posts.Where(p => p.Author.ID == AuthorID).OrderByDescending(x => x.PublishedTime).Skip(skip).Take(take).ToList();
+                authorViewModel.Posts = posts.Value;
+                authorViewModel.PageNo = pageNo.Value;
+                authorViewModel.DisplayNext = authorViewModel.DisplayPrevious = true;
 
-                authorViewModel.Posts = db.Posts.Where(p => p.Author.ID == AuthorID).ToList();
+                if (authorViewModel.TotalPosts - ((authorViewModel.PageNo - 1) * authorViewModel.Posts) <= authorViewModel.Posts)
+                {
+                    authorViewModel.DisplayNext = false;
+                }
 
+                if (authorViewModel.PageNo <= 1)
+                {
+                    authorViewModel.DisplayPrevious = false;
+                }
+                
                 return View(authorViewModel);
             }
             else return RedirectToAction("Index", "Home");

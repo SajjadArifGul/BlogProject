@@ -21,32 +21,50 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-            <h5>Posts by @Model.Name</h5>
-            <hr />
-            @foreach (var post in Model.Posts)
+            @if (Model.PostsList != null && Model.PostsList.Count > 0)
             {
-                <div class="post-preview">
-                    <a href="/posts/details/@post.ID">
-                        <h2 class="post-title">
-                            @post.Title
-                        </h2>
-                        <h3 class="post-subtitle">
-                            ---
-                        </h3>
-                    </a>
-                    <p class="post-meta">
-                        Posted by
-                        @Html.ActionLink(post.Author.Name, "Author", "Accounts", new { AuthorID = post.Author.ID }, null)
-                        on @post.PublishedTime.ToString("D")
-                    </p>
-                </div>
-                <hr>
-            }
+                foreach (var post in Model.PostsList)
+                {
+                    <div class="post-preview">
+                        <a href="@Url.PostDetailsURL(post.ID, post.URL)">
+                            <h2 class="post-title">
+                                @post.Title
+                            </h2>
+                            <h3 class="post-subtitle">
+                                @post.PostSummary
+                            </h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            @Html.ActionLink(post.Author.Name, "Author", "Accounts", new { authorID = post.Author.ID }, null)
+                            on @post.PublishedTime.ToString("D")
+                        </p>
+                    </div>
+                    <hr>
+                }
 
-            <!-- Pager -->
-            <div class="clearfix">
-                <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
-            </div>
+                if (Model.TotalPosts > Model.PostsList.Count)
+                {
+                    <!-- Pager -->
+                    <div class="clearfix">
+                        <br />
+                        @if (Model.DisplayNext)
+                        {
+                            <a class="btn btn-primary float-right" href="@Url.AuthorPostsNavigate(Model.Author.ID, Model.PageNo + 1, Model.Posts)">Newer Posts &rarr;</a>
+                        }
+                        @if (Model.DisplayPrevious)
+                        {
+                            <a class="btn btn-primary float-left" href="@Url.AuthorPostsNavigate(Model.Author.ID, Model.PageNo - 1, Model.Posts)">&larr; Older Posts</a>
+                        }
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="alert alert-danger">
+                    <strong>Sorry!</strong> No Posts Availble
+                </div>
+            }
         </div>
     </div>
 </div>

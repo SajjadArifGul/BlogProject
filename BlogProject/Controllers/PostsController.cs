@@ -31,7 +31,6 @@ namespace BlogProject.Controllers
         [HttpPost]
         public ActionResult Write(WritePostViewModel model)
         {
-
             var CurrentlyLoggedInUser = (User)Session["User"];
             
             if (ModelState.IsValid)
@@ -48,15 +47,15 @@ namespace BlogProject.Controllers
                 db.Posts.Add(newPost);
                 db.SaveChanges();
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Details", new { postID = newPost.ID, postURL = newPost.URL });
             }
 
             return View(model);
         }
 
-        public ActionResult Details(int ID)
+        public ActionResult Details(int postID, string postURL)
         {
-            var post = db.Posts.Where(p => p.ID == ID).FirstOrDefault();
+            var post = db.Posts.Where(p => p.ID == postID).FirstOrDefault();
 
             return View(post);
         }
