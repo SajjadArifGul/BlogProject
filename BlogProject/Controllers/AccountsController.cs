@@ -19,8 +19,8 @@ namespace BlogProject.Controllers
         {
             RegisterViewModel model = new RegisterViewModel();
 
-            model.Countries = db.Countries.ToList();
-            model.Cities = db.Cities.ToList();
+            model.Countries = db.Countries.OrderBy(x=>x.Name).ToList();
+            model.Cities = db.Cities.OrderBy(x => x.Name).ToList();
 
             model.DefaultCountry = 2;
             
@@ -53,8 +53,8 @@ namespace BlogProject.Controllers
             }
             else {
 
-                model.Countries = db.Countries.ToList();
-                model.Cities = db.Cities.ToList();
+                model.Countries = db.Countries.OrderBy(x => x.Name).ToList();
+                model.Cities = db.Cities.OrderBy(x => x.Name).ToList();
 
                 model.DefaultCountry = 2;
 
@@ -167,8 +167,8 @@ namespace BlogProject.Controllers
                 }
                 else
                 {
-                    model.Countries = db.Countries.ToList();
-                    model.Cities = db.Cities.ToList();
+                    model.Countries = db.Countries.OrderBy(x => x.Name).ToList();
+                    model.Cities = db.Cities.OrderBy(x => x.Name).ToList();
 
                     model.DefaultCountry = CurrentlyLoggedInUser.City.Country.ID;
 
@@ -231,7 +231,7 @@ namespace BlogProject.Controllers
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
 
-            var cities = db.Cities.Where(c => c.Country.ID == CountryID).ToList();
+            var cities = db.Cities.Where(c => c.Country.ID == CountryID).OrderBy(x => x.Name).ToList();
 
             result.Data = cities;
 

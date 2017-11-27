@@ -13,10 +13,10 @@ namespace BlogProject.Models
         public int ID { get; set; }
 
         [Required]
-        [MaxLength(100, ErrorMessage ="Max Title Length is 100 Characters"), MinLength(10, ErrorMessage = "Min Title Length is 10 Characters")]
+        [MaxLength(300, ErrorMessage ="Max Title Length is 100 Characters"), MinLength(10, ErrorMessage = "Min Title Length is 10 Characters")]
         public string Title { get; set; }
 
-        [MaxLength(200, ErrorMessage = "Max Length is 200 Characters")]
+        [MaxLength(500, ErrorMessage = "Max Length is 200 Characters")]
         public string Summary { get; set; }
 
         [Required]

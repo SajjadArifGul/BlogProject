@@ -178,6 +178,10 @@
     <Compile Include="Migrations\201711251349511_ImageAddedToPost.Designer.cs">
       <DependentUpon>201711251349511_ImageAddedToPost.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711272115160_summarytitlelength.cs" />
+    <Compile Include="Migrations\201711272115160_summarytitlelength.Designer.cs">
+      <DependentUpon>201711272115160_summarytitlelength.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Country.cs" />
@@ -310,6 +314,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711251349511_ImageAddedToPost.resx">
       <DependentUpon>201711251349511_ImageAddedToPost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711272115160_summarytitlelength.resx">
+      <DependentUpon>201711272115160_summarytitlelength.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
